@@ -1,10 +1,15 @@
 import 'dart:ffi';
+import 'package:dll_test/wjet_test.dart';
 import 'package:flutter/material.dart';
 
 final DynamicLibrary wjetTest = DynamicLibrary.open("Wjet_Test.dll");
+final DynamicLibrary openDll = DynamicLibrary.open("WJet.dll");
 late Pointer<Double> Function() getNum;
+late Pointer<Double> Function() getTest;
 
 void main() async {
+  dllInit();
+  openDll;
   runApp(const MyApp());
 }
 
@@ -43,16 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _dllNext() {
     dllInit();
+  }
 
-    // next = fibonacci.lookup<NativeFunction<Bool Function>>(symbolName)
-    // next = fibonacci
-    //     .lookup<NativeFunction<Bool Function()>>('fibonacci_next')
-    //     .asFunction<bool Function()>();
-    // current = fibonacci
-    //     .lookup<NativeFunction<Int8 Function()>>('fibonacci_current')
-    //     .asFunction<int Function()>();
-    // next;
-    // current;
+  void _navi() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => WJetTestScreen()),
+    );
   }
 
   @override
@@ -75,6 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
             OutlinedButton(onPressed: _dllNext, child: const Text('dll Next')),
             // Text('${nativeAdd(1, 2)}')
             // Text(current.toString())
+            OutlinedButton(
+                onPressed: _navi, child: const Text('Wjet dll test')),
           ],
         ),
       ),
